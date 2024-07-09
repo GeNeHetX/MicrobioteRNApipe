@@ -2,7 +2,7 @@
 
 ## Description
 
-This pipeline was designed to detect and identify non human DNA in RNA seq data, in order to have a separation between human and non human reads.  
+This pipeline was designed to detect and identify non human RNA reads in RNA seq data, in order to have a separation between human and non human reads.  
 
 It uses **Kneaddata** software for quality control and decontamination. It allows us to keep paired reads that do not match (or align) the databases used as filters.  
 
