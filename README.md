@@ -11,9 +11,32 @@ Then it uses **Kraken2** to assign each read that passed those filtering criteri
 It also uses **Nextflow** and **singularity** for easy deployment on any machine or HPC and to ensure reproducibility of results.
 
 
+## Dependencies
+
+To check the necessary dependencies before running the pipeline, click on the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Dependencies.md) 
+
+
+## Execution
+
+In order to retrieve the commands that execute the pipeline, click on the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Execution.md)
+
+## Parameters
+
+To look at the several parameters that can be adjusted before the pipeline execution, click on the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Parameters.md)
+
 ## Output files:
 
 Once the pipeline is executed succesfully, you will obtain several results :
 
 - Kraken step of the pipeline provides a taxonomic classification file for all the samples that were taken into account in the run.
-- An OTU and TAX table will be generated at the end of the pipeline's execution. These files can be used then to perform several analysis, such as Bacterial diversity using Alpha and Beta diversity approaches, Bacterial enrichment set analysis, as well as the possibility to generate the  bacterial diversity pie-chart of the samples and to generate a table of abundance for all samples. Note that each folder of this repository contains all the necessary step to perform the several analysis mentionned earlier. 
+- An OTU and TAX table will be generated at the end of the pipeline's execution. 
+
+## Possible analysis from MicrobioteRNAPipe output results
+
+- If you want to retrieve the bacterial composition pie-chart of all your samples, click on the following [link]
+
+- if you didn't run all the samples on the same pipeline and want to generate one OTU and TAX table of all these samples, check this [link] 
+
+- If you want to perform Alpha and Beta diversity analyses using the OTU and TAX table outputs of the pipeline, check the first part of the [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta.pdf) and it's second part [tutorial_P2](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta_part2.pdf)
+
+- Finally, if you want to perform Bacterial set enrichment analysis, check the following [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/BacterialEnrichmentAnalysis/Tutorial_bacterial_enrichment_analysis.pdf)

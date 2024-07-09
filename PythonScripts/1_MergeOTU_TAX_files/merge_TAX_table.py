@@ -3,43 +3,34 @@ import glob
 import argparse
 import os
 
-def merge_tax_tables(first_folder_path, second_folder_path, output_file_path):
-    # Ensure the first folder path ends with a slash
-    if not first_folder_path.endswith(os.sep):
-        first_folder_path += os.sep
+def merge_tax_tables(folder_path, output_file_path):
+    # Ensure the folder path ends with a slash
+    if not folder_path.endswith(os.sep):
+        folder_path += os.sep
 
-    # Ensure the second folder path ends with a slash
-    if not second_folder_path.endswith(os.sep):
-        second_folder_path += os.sep
+    # List of TAX files in the folder
+    tax_files = glob.glob(folder_path + "*.csv")
+    if not tax_files:
+        raise FileNotFoundError(f"No CSV files found in the directory: {folder_path}")
 
     # Read the first file
-    first_files = glob.glob(first_folder_path + "*.csv")
-    if not first_files:
-        raise FileNotFoundError(f"No CSV files found in the directory: {first_folder_path}")
-    
-    first_file = first_files[0]
+    first_file = tax_files[0]
     df1 = pd.read_csv(first_file)
 
-    # List of TAX files to merge from the second folder
-    tax_files = glob.glob(second_folder_path + "*.csv")
-    if not tax_files:
-        raise FileNotFoundError(f"No CSV files found in the directory: {second_folder_path}")
-
-    # Iterate over the list of TAX files and merge each with the first file
-    for file in tax_files:
+    # Iterate over the list of TAX files, starting from the second file
+    for file in tax_files[1:]:
         df_temp = pd.read_csv(file)
         new_rows_df = df_temp[~df_temp['X'].isin(df1['X'])]
-        df1 = pd.concat([df1, new_rows_df])
+        df1 = pd.concat([df1, new_rows_df], ignore_index=True)
 
     # Write the merged dataframe to a new CSV file
     df1.to_csv(output_file_path, index=False)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Merge TAX tables.')
-    parser.add_argument('first_folder', type=str, help='Path to the folder containing the first TAX table')
-    parser.add_argument('second_folder', type=str, help='Path to the folder containing the rest of the TAX tables')
+    parser.add_argument('folder', type=str, help='Path to the folder containing the TAX tables')
     parser.add_argument('output_file', type=str, help='Path to the output CSV file')
 
     args = parser.parse_args()
 
-    merge_tax_tables(args.first_folder, args.second_folder, args.output_file)
+    merge_tax_tables(args.folder, args.output_file)
