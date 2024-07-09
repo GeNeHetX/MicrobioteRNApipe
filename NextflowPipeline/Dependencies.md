@@ -5,8 +5,6 @@
 Load the last version of nextflow:  
 ```module load nextflow/23.10.1```
 
-add containers for '**kneaddata**' and '**run_Kraken2biom**' on "withName" attributes in the configuration file of the pipeline
-
 ### > Install your environnement - local LINUX
 
 To run this pipeline you will need to have installed on your machine:
