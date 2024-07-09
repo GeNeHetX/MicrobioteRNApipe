@@ -26,16 +26,16 @@ To look at the several parameters that can be adjusted before the pipeline execu
 
 ## Output files:
 
-Once the pipeline is executed succesfully, you will obtain several results :
+Once the pipeline is executed successfully, you will obtain several results :
 
 - Kraken step of the pipeline provides a taxonomic classification file for all the samples that were taken into account in the run.
 - An OTU and TAX table will be generated at the end of the pipeline's execution. 
 
 ## Possible analysis from MicrobioteRNAPipe output results
 
-- If you want to retrieve the bacterial composition pie-chart of all your samples, click on the following [link]
+- If you want to retrieve the bacterial composition pie-chart of all your samples, check the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/PythonScripts/2_Samples_Bacterial_PieCharts/README.md)
 
-- if you didn't run all the samples on the same pipeline and want to generate one OTU and TAX table of all these samples, check this [link] 
+- if you didn't run all the samples on the same pipeline and want to generate one OTU and TAX table of all these samples, check this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/PythonScripts/1_MergeOTU_TAX_files/README.md) 
 
 - If you want to perform Alpha and Beta diversity analyses using the OTU and TAX table outputs of the pipeline, check the first part of the [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta.pdf) and it's second part [tutorial_P2](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta_part2.pdf)
 

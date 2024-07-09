@@ -1,19 +1,25 @@
-## Identification of bacteria in FFPE samples using RNAseq
+## Generating bacterial composition pie chart
 
-## Description
+To generate the bacterial composition of the samples that were analyzed using the MicrobioteRNAPipe :
 
-This pipeline was designed to detect and identify non human DNA in RNA seq data, in order to have a separation between human and non human reads.  
+- Download the generate_pie_charts.py script that is available within this folder.
 
-It uses **Kneaddata** software for quality control and decontamination. It allows us to keep paired reads that do not match (or align) the databases used as filters.  
+- Then, open a terminal and run the following command:
 
-Then it uses **Kraken2** to assign each read that passed those filtering criteria to a known taxon.
+`python generate_pie_charts.py -i PATH_TO_YOUR_KREPORT_FILES_FOLDER -o PATH_TO_YOUR_OUTPUT_DIRECTORY -t "G" -n 20`
 
-It also uses **Nextflow** and **singularity** for easy deployment on any machine or HPC and to ensure reproducibility of results.
+With:
+
+-i (PATH_TO_YOUR_KREPORT_FILES_FOLDER): The path containing all your Kreport files
+
+-o (PATH_TO_YOUR_OUTPUT_DIRECTORY): The path where you desire to obtain your pie charts and the abundance percentage CSV file.
+
+-t ("G"): The taxa level that will be taken into account to generate the pie-chart. Adjust it to "S" in case you want to retrieve the species bacterial abundance pie chart.
+
+-n ("20"): The number of top taxa that will be shown without the pie-chart. By default the value is 15, and it can be adjusted by changing the this parameter.
+
+Make sure that your script is located in the directory where you run this command.
+
+Also, for better visualisation, use the CSV file to generate a pie-chart in case the python generated pie-chart are not clear (which can be the case)
 
 
-## Output files:
-
-Once the pipeline is executed succesfully, you will obtain several results :
-
-- Kraken step of the pipeline provides a taxonomic classification file for all the samples that were taken into account in the run.
-- An OTU and TAX table will be generated at the end of the pipeline's execution. These files can be used then to perform several analysis, such as Bacterial diversity using Alpha and Beta diversity approaches, Bacterial enrichment set analysis, as well as the possibility to generate the  bacterial diversity pie-chart of the samples and to generate a table of abundance for all samples. Note that each folder of this repository contains all the necessary step to perform the several analysis mentionned earlier. 
