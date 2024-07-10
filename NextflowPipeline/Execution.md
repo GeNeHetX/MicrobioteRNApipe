@@ -1,4 +1,4 @@
-## 1. Git cloning and necessary folders for the pipeline execution
+# 1. Git cloning and necessary folders for the pipeline execution
 
 First of all, you have to clone this git repository using the following command:
 
@@ -25,9 +25,7 @@ Download the first three databases by running the  the following commands in you
 Then download the kraken database using the following [link](https://genome-idx.s3.amazonaws.com/kraken/k2_standard_20230314.tar.gz) (64Gb)
 
  
-## 2. Execution of the pipeline in IFB cluster
-
-## 2.1 Trasnfering the required databases and files to the IFB cluster
+# 2. Transfering the required databases and files to the IFB cluster
 
 In the IFB cluster, you have to create a directory where you will copy all the databases and the different files required to execute the pipeline.
 
@@ -116,12 +114,19 @@ This file contains several parameters :
 
 ##  3.1  Input files parameter
 
-The FASTQ input file parameter can be adjusted
+The FASTQ input file parameter can be adjusted on the `test.config` configuration file of the pipeline.
 
-
-Here is an example of the parameters in the configuration file of the pipeline:
+Here is an example of how this parameter is defined:
 
 - **fastq_dir** = "/shared/projects/pancreas_microbiote_rna/set_ech_melanome"
+
+NB: If you have samples that end with _001 (such as retina_A1_R1_001.fastq), you have also to replace this parameter:
+
+`suffix = "*{1,2}"` with : `suffix = "*{1,2}_001"`
+
+##  3.2  Database parameters
+
+The different databases needed to run the pipeline are present on the `test.config` configuration file of the pipeline.
 
 - **human_genome** = "/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_genome"
 
@@ -131,9 +136,18 @@ Here is an example of the parameters in the configuration file of the pipeline:
 
 - **kraken_db** = "/shared/projects/vmdc_wgte/krakenDB"
 
+Adjust them as needed based on the localization of your databases in the IFB cluster
+
+##  3.3   Filtering parameters
+
+The filtering parameters that are required for certain tools of the pipeline can be adjusted on the `test.config` configuration file of the pipeline.
+
 - **confidence_score**: "0.1"
 
 - **threshold**: "0"
+
+
+##  3.4   Project and Output directories
 
 - **project_dir** = "/shared/projects/can_mic/newMetagen"
 
