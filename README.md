@@ -22,7 +22,7 @@ To check the necessary dependencies before running the pipeline, click on the fo
 
 ## 01_Pipeline execution steps
 
-The execution of the pipeline requires following several steps that can be found in this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Execution.md)
+The execution of the pipeline requires following several steps that can be found in this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/PipelineExecution.md)
 
 ## Output files:
 
