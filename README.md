@@ -33,9 +33,9 @@ Once the pipeline is executed successfully, you will obtain several results :
 
 ## Possible analysis from MicrobioteRNAPipe output results
 
-- If you want to retrieve the microbial composition pie-chart of all your samples, check the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/PythonScripts/2_Samples_Bacterial_PieCharts/README.md)
+- If you want to retrieve the microbial composition pie-chart of all your samples, check the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AnalysisScripts/2_Samples_Bacterial_PieCharts/README.md)
 
-- if you didn't run all the samples on the same pipeline and want to generate one OTU and TAX table of all these samples, check this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/PythonScripts/1_MergeOTU_TAX_files/README.md) 
+- if you didn't run all the samples on the same pipeline and want to generate one OTU and TAX table of all these samples, check this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AnalysisScripts/1_MergeOTU_TAX_files/README.md) 
 
 - If you want to perform Alpha and Beta diversity analyses using the OTU and TAX table outputs of the pipeline, check the first part of the [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta.md) and it's second part [tutorial_P2](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta_part2.md)
 
