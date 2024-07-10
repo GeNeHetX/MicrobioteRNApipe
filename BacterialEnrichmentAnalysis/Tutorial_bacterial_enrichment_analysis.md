@@ -1,14 +1,8 @@
----
-title: "Bacterial enrichment analysis tutorial"
-output:
-  pdf_document: default
-  html_document:
-    theme: cerulean
-    highlight: tango
-date: "2024-06-27"
-author: "Ali Youncha"
----
+## Authors
 
+- [Ali YOUNCHA](https://github.com/MrAli1582)
+
+  
 # Introduction
 
 This tutorial demonstrates how to perform taxa enrichment analysis to retrieve metabolic pathways that might be slightly enriched amongst molecular subtypes of PDAC.

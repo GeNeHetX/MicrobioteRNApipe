@@ -1,14 +1,7 @@
----
-title: "Alpha and Beta Diversity Analysis Tutorial PART 1"
-output:
-  pdf_document: default
-  html_document:
-    theme: cerulean
-    highlight: tango
-date: "2024-06-27"
-author: "Ali Youncha"
----
+## Authors
 
+- [Ali YOUNCHA](https://github.com/MrAli1582)
+  
 # Introduction
 
 This tutorial demonstrates how to perform alpha and beta diversity analyses using the `phyloseq` package in R. We will use OTU and TAX tables generated from the MicrobioteRNAPipe pipeline.
