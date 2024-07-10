@@ -66,14 +66,18 @@ mkdir KrakenDB
 
 Then, copy all the databases that you downloaded to the directory directory using the following commands:
 
-`rsync -v -r HUMAN_GENOME_DATABASE_OUTPUT_FOLDER/* YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/DIRECTORY_NAME/human_genome`
-
-`rsync -v -r HUMAN_TRANSCRIPTOME_DATABASE_OUTPUT_FOLDER/* YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/DIRECTORY_NAME/human_transcriptome`
-
-`rsync -v -r SILVA16S_DATABASE_OUTPUT_FOLDER/* YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/DIRECTORY_NAME/silva16s`
-
-`rsync -v -r KRAKEN_DATABASE_OUTPUT_FOLDER/* YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/DIRECTORY_NAME/KrakenDB`
-
+```
+rsync -v -r HUMAN_GENOME_DATABASE_OUTPUT_FOLDER/* YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/DIRECTORY_NAME/human_genome
+```
+```
+rsync -v -r HUMAN_TRANSCRIPTOME_DATABASE_OUTPUT_FOLDER/* YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/DIRECTORY_NAME/human_transcriptome
+```
+```
+rsync -v -r SILVA16S_DATABASE_OUTPUT_FOLDER/* YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/DIRECTORY_NAME/silva16s
+```
+```
+rsync -v -r KRAKEN_DATABASE_OUTPUT_FOLDER/* YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/DIRECTORY_NAME/KrakenDB
+```
 `PROJECT_NAME` is the name of your project in the IFB cluster (for example microbiotePDACRNA)
 
 
@@ -83,34 +87,45 @@ VERY IMPORTANT : Please copy your FASTQ files on a completely different project 
 
 To do so, use the following command:
 
-`rsync -v -r PATH_TO_YOUR_FASTQ_FOLDER/* YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/SAMPLES_PROJECT/DIRECTORY_NAME/`
+```
+rsync -v -r PATH_TO_YOUR_FASTQ_FOLDER/* YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/SAMPLES_PROJECT/DIRECTORY_NAME/
+```
 
 Afterwards, copy the necessary files to execute the pipeline `launch_nf.job`,  `main_microbiote_pipeline.nf` and `test.config`.
 
 First, create a directory on the IFB cluster:
 
-`cd /shared/projects/PROJECT_NAME/DIRECTORY_NAME/`
-
-`mkdir main`
+```
+cd /shared/projects/PROJECT_NAME/DIRECTORY_NAME/
+```
+```
+mkdir main
+```
 
 Then, go back to the terminal and run the following commands:
 
-`rsync -v -r MicrobioteRNAPipe/NextflowPipeline/launch_nf.job YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/main/`
-
-`rsync -v -r MicrobioteRNAPipe/NextflowPipeline/main_mircrobiote_pipeline.nf YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/main/`
-
-`rsync -v -r MicrobioteRNAPipe/NextflowPipeline/test.config YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/main/`
-
+```
+rsync -v -r MicrobioteRNAPipe/NextflowPipeline/launch_nf.job YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/main/
+```
+```
+rsync -v -r MicrobioteRNAPipe/NextflowPipeline/main_mircrobiote_pipeline.nf YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/main/
+```
+```
+rsync -v -r MicrobioteRNAPipe/NextflowPipeline/test.config YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/main/
+```
 The last step is to create a script folder inside your project that will contain all the necessary steps to execute the pipeline:
 
-`cd ..`
-
-`mkdir script`
-
+```
+cd ..
+```
+```
+mkdir script
+```
 Once the folder is created, run this command on your terminal:
 
-`rsync -v -r MicrobioteRNAPipe/ YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/script/`
-
+```
+rsync -v -r MicrobioteRNAPipe/ YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/script/
+```
 
 # 3. Parameters modification
 
@@ -138,19 +153,25 @@ Here is an example of how this parameter is defined:
 
 NB: If you have samples that end with _001 (such as retina_A1_R1_001.fastq), you have also to replace this parameter:
 
-`suffix = "*{1,2}"` with : `suffix = "*{1,2}_001"`
+```
+suffix = "*{1,2}"
+```
+with:
 
+```
+suffix = "*{1,2}_001"
+```
 ##  3.2  Database parameters
 
 The different databases needed to run the pipeline are present on the `test.config` configuration file of the pipeline.
 
-- **human_genome** = "/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_genome"
+- **human_genome** = **"/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_genome"**
 
-- **human_transcriptome** = "/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_transcriptome"
+- **human_transcriptome** = **"/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_transcriptome"**
 
-- **silva16s** = "/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/silva16S"
+- **silva16s** = **"/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/silva16S"**
 
-- **kraken_db** = "/shared/projects/vmdc_wgte/krakenDB"
+- **kraken_db** = **"/shared/projects/vmdc_wgte/krakenDB"**
 
 Adjust them as needed based on the localization of your databases in the IFB cluster
 
@@ -158,16 +179,16 @@ Adjust them as needed based on the localization of your databases in the IFB clu
 
 The filtering parameters that are required for certain tools of the pipeline can be adjusted on the `test.config` configuration file of the pipeline.
 
-- **confidence_score**: "0.1"
+- **confidence_score**: **"0.1"**
 
-- **threshold**: "0"
+- **threshold**: **"0"**
 
 
 ##  3.4   Project and Output directories
 
-- **project_dir** = "/shared/projects/can_mic/newMetagen"
+- **project_dir** = **"/shared/projects/can_mic/newMetagen"**
 
-- **output_dir** = "/shared/projects/microbiote_pdacrna/ali/Melanoma_run"
+- **output_dir** = **"/shared/projects/microbiote_pdacrna/ali/Melanoma_run"**
 
 
 These parameters can be adjusted as needed to match your actual paths.
