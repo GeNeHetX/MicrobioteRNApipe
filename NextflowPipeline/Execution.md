@@ -108,6 +108,8 @@ This file contains several parameters :
 - **human_transcriptome**: reference database of the human transcriptome
 - **silva16s**: reference database silva16s, 16s RNA for the procaryote species. This parameter is not included by default, but if you want to remove ribosomal 16s RNAs from the analysis, include it by adding --reference-db ${ref_silva16s} in the Kneaddata step of the pipeline.
 - **kraken_db**: The kraken2 database used for taxonomic classification
+- **confidence_score**: The confidence score parameter value selected to perform taxonomic classification
+- **threshold**: The number of reads assigned threshold that is used to filter genus/species taxa. 
 - **project_dir**: the project directory where you have all the necessary files and databases to execute the pipeline
 - **output_dir**: the directory where you want to obtain your results
 
@@ -117,8 +119,14 @@ Here is an example of the parameters in the configuration file of the pipeline:
 **human_genome** = "/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_genome"
 **human_transcriptome** = "/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_transcriptome"
 **silva16s** = "/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/silva16S"
-**project_dir** = 
-**output_dir** = 
+**kraken_db** = "/shared/projects/vmdc_wgte/krakenDB"
+**confidence_score**: "0.1"
+**threshold**: "0"
+**project_dir** = "/shared/projects/can_mic/newMetagen"
+**output_dir** = "/shared/projects/microbiote_pdacrna/ali/Melanoma_run"
+
+These parameters can be adjusted as needed to match your actual paths.
+
 
 Finally, executing the pipeline will require running three commands in the following order:
 
