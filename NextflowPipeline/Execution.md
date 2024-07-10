@@ -187,18 +187,21 @@ Once u have adjusted all the parameters to match what you desire to analyze, exe
 
 First, in your IFB terminal, move to the desired folder where you want to obtain the results of the execution of the pipeline using this command:
 
-`cd $output_dir`
-
+```
+cd $output_dir
+```
 
 Then, create a screen to visualize the execution state of the pipeline using this command:
 
-`screen -S SCREEN_NAME`
-
+```
+screen -S SCREEN_NAME
+```
 
 Finally, run the following command to execute the pipeline:
 
-`sbatch PATH_TO_JOB_EXECUTION PATH_TO_PIPELINE_MAIN PATH_TO_CONFIGURATION_FILE`
-
+```
+sbatch PATH_TO_JOB_EXECUTION PATH_TO_PIPELINE_MAIN PATH_TO_CONFIGURATION_FILE
+```
 With:
 
 PATH_TO_JOB_EXECUTION: The path containing the launch_nf.job execution file 
