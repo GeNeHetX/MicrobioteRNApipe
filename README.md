@@ -44,4 +44,3 @@ Once the pipeline is executed successfully, you will obtain several results :
 ## Authors
 
 - [Ali YOUNCHA](https://github.com/MrAli1582)
-- [Anne DUVEAU](https://github.com/AnneDuveau)
