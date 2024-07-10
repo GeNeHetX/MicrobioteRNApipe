@@ -90,6 +90,7 @@ Then, go back to the terminal and run the following commands:
 The last step is to create a script folder inside your project that will contain all the necessary steps to execute the pipeline:
 
 `cd ..`
+
 `mkdir script`
 
 Once the folder is created, run this command on your terminal:
