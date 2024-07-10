@@ -13,4 +13,5 @@ export JAVA_HOME=/shared/software/conda/envs/nextflow-23.10.1
 
 module load nextflow/23.10.1
 
+## Adjust this command by keeping or removing the -resume option
 nextflow -C ${CONFIG} run ${PIPELINE} -resume

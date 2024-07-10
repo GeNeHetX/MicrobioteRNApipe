@@ -10,16 +10,16 @@ To generate the bacterial composition of the samples that were analyzed using th
 
 With:
 
--i (PATH_TO_YOUR_KREPORT_FILES_FOLDER): The path containing all your Kreport files
+**-i (PATH_TO_YOUR_KREPORT_FILES_FOLDER)**: The path containing all your Kreport files
 
--o (PATH_TO_YOUR_OUTPUT_DIRECTORY): The path where you desire to obtain your pie charts and the abundance percentage CSV file.
+**-o (PATH_TO_YOUR_OUTPUT_DIRECTORY)**: The path where you desire to obtain your pie charts and the abundance percentage CSV file.
 
--t ("G"): The taxa level that will be taken into account to generate the pie-chart. Adjust it to "S" in case you want to retrieve the species bacterial abundance pie chart.
+**-t ("G")**: The taxa level that will be taken into account to generate the pie-chart. Adjust it to "S" in case you want to retrieve the species bacterial abundance pie chart.
 
--n ("20"): The number of top taxa that will be shown without the pie-chart. By default the value is 15, and it can be adjusted by changing the this parameter.
+**-n ("20")**: The number of top taxa that will be shown without the pie-chart. By default the value is 15, and it can be adjusted by changing the this parameter.
 
 Make sure that your script is located in the directory where you run this command.
 
-Also, for better visualisation, use the CSV file to generate a pie-chart in case the python generated pie-chart are not clear (which can be the case)
+Also, for better visualization, use the CSV file to generate a pie-chart in case the python generated pie-chart are not clear (which can be the case)
 
 

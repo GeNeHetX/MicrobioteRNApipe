@@ -14,11 +14,11 @@ If during the execution of the pipeline, you executed samples separately and wan
 
 With :
 
-PATH_TO_YOUR_OTU_TABLE_FOLDER : The path containing the OTU tables of all the samples that were analyzed separately.
+**PATH_TO_YOUR_OTU_TABLE_FOLDER** : The path containing the OTU tables of all the samples that were analyzed separately.
 
-PATH_TO_YOUR_OTU_TABLE_FOLDER : The path containing the TAX tables of all the samples that were analyzed separately.
+**PATH_TO_YOUR_OTU_TABLE_FOLDER** : The path containing the TAX tables of all the samples that were analyzed separately.
 
-PATH_TO_YOUR_OUTPUT_FILE : The path where you want to generate the merged output.
+**PATH_TO_YOUR_OUTPUT_FILE** : The path where you want to generate the merged output.
 
 Make sure that the scripts are present in the directory where you execute these commands.
 

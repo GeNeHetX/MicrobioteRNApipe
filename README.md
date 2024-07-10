@@ -1,4 +1,8 @@
-## Identification of bacteria in FFPE samples using RNAseq
+## Authors
+
+- [Ali YOUNCHA](https://github.com/MrAli1582)
+
+# Identification of bacteria in FFPE samples using RNAseq
 
 ## Description
 
@@ -11,12 +15,12 @@ Then it uses **Kraken2** to assign each read that passed those filtering criteri
 It also uses **Nextflow** and **singularity** for easy deployment on any machine or HPC and to ensure reproducibility of results.
 
 
-## Dependencies
+## 00_Dependencies
 
 To check the necessary dependencies before running the pipeline, click on the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Dependencies.md) 
 
 
-## Execution
+## 01_Pipeline execution steps
 
 The execution of the pipeline requires following several steps that can be found in this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Execution.md)
 
@@ -37,6 +41,3 @@ Once the pipeline is executed successfully, you will obtain several results :
 
 - Finally, if you want to perform Bacterial set enrichment analysis, check the following [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/BacterialEnrichmentAnalysis/Tutorial_bacterial_enrichment_analysis.pdf)
 
-## Authors
-
-- [Ali YOUNCHA](https://github.com/MrAli1582)

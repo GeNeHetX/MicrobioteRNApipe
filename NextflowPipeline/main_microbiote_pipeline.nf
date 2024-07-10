@@ -7,9 +7,9 @@ process kneaddata {
 
     errorStrategy 'retry'
 
-    maxRetries 1
+    maxRetries 5
 
-    publishDir path: "${params.output_dir}/kneaddata", mode: 'copy', overwrite: true, pattern: "${sample}_kneaddata/*"
+    //publishDir path: "${params.output_dir}/kneaddata", mode: 'copy', overwrite: true, pattern: "${sample}_kneaddata/*"
     //publishDir path: "${params.output_dir}/kneaddata", mode: 'copy', overwrite: true, pattern: "${sample}_kneaddata/fastqc/*"
 
     input:
@@ -58,26 +58,6 @@ process kneaddata {
     """
 }
 
-
-// ----------------------------------------------
-//             Check and Cleanup
-// ----------------------------------------------
-process check_and_cleanup {
-    input:
-        tuple val(sample), file(paired)
-    script:
-    """
-    # Check if the read count table file exists and then perform cleanup
-    if [ -f "${paired}" ]; then
-        echo "Output files exist. Proceeding with cleanup."
-        rm -r -f ${params.work_dir}/*
-    else
-        echo "Output files do not exist. Skipping cleanup."
-    fi
-    """
-}
-
-
 // ----------------------------------------------
 //             Merge Knead
 // ----------------------------------------------
@@ -92,7 +72,7 @@ process merge_knead {
 
     maxRetries 5
 
-    publishDir "${params.output_dir}/merge_knead", mode: 'copy', overwrite: true, pattern: "merge_knead.tsv"
+    // publishDir "${params.output_dir}/merge_knead", mode: 'copy', overwrite: true, pattern: "merge_knead.tsv"
 
     scratch '/tmp'
 
@@ -123,10 +103,10 @@ process kraken {
     maxRetries 5
 
     // Directive publishDir spécifique pour les fichiers .kreport
-    publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_reads_minimizer.kreport"
+    publishDir path: "${params.output_dir}", mode: 'copy', overwrite: true, pattern: "${sample}_reads_minimizer.kreport"
 
     // Directive publishDir spécifique pour les autres fichiers
-    publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_reads.krak"
+    // publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_reads.krak"
     // publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_classified_1.fastq"
     // publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_classified_2.fastq"
     // publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_unclassified_1.fastq"
@@ -152,8 +132,6 @@ process kraken {
         kraken2 --db ${params.kraken_db} \
         --threads ${task.cpus} \
         --paired \
-        --classified-out ${sample}_classified#.fastq \
-        --unclassified-out ${sample}_unclassified#.fastq \
         --output ${sample}_reads.krak \
         --report ${sample}_reads_minimizer.kreport \
         --report-minimizer-data \
@@ -178,7 +156,7 @@ process generate_original_kreport {
     maxRetries 5
 
 
-    publishDir "${params.output_dir}/GenerateOriginalKreport", mode: 'copy', overwrite: true
+    // publishDir "${params.output_dir}/GenerateOriginalKreport", mode: 'copy', overwrite: true
 
     scratch '/tmp'
 
@@ -211,7 +189,7 @@ process filter_kreport_file {
 
     maxRetries 5
     
-    publishDir "${params.output_dir}/FilterKreportFile", mode: 'copy', overwrite: true
+   //  publishDir "${params.output_dir}/FilterKreportFile", mode: 'copy', overwrite: true
     
     scratch '/tmp'
 
@@ -244,7 +222,7 @@ process filter_kreport_original_file {
 
     maxRetries 5
     
-    publishDir "${params.output_dir}/FilterKreportOriginalFile", mode: 'copy', overwrite: true
+    // publishDir "${params.output_dir}/FilterKreportOriginalFile", mode: 'copy', overwrite: true
     
     scratch '/tmp'
 
@@ -280,7 +258,7 @@ process run_Kraken2biom {
     maxRetries 5
 
 
-    publishDir "${params.output_dir}/kraken2biom", mode: 'copy', overwrite: true
+    // publishDir "${params.output_dir}/kraken2biom", mode: 'copy', overwrite: true
 
     scratch '/tmp'
 
@@ -313,7 +291,7 @@ process biom_tab {
     maxRetries 5
 
 
-    publishDir "${params.output_dir}/biom_tab", mode: 'copy', overwrite: true
+    publishDir "${params.output_dir}", mode: 'copy', overwrite: true
 
     input:
         file(biom_data)
@@ -342,7 +320,7 @@ process keep_bacteria_only {
 
     maxRetries 5
 
-    publishDir "${params.output_dir}/biom_tab", mode: 'copy', overwrite: true
+    publishDir "${params.output_dir}", mode: 'copy', overwrite: true
 
     scratch '/tmp'
 
@@ -368,15 +346,12 @@ process keep_bacteria_only {
 // ext = "fastq,fastq.gz,fastq.bz2,fq,fq.gz,fq.bz2"
 
 Channel
-    // .fromFilePairs("${params.fastq_dir}/*{1,2}.{${ext}}")
     .fromFilePairs("${params.fastq_dir}/${params.suffix}.{${params.ext}}")
-    // .fromFilePairs("${params.fastq_dir}/*{1,2}_001.{${ext}}") (This part of the code can be used in case the samples end with _001)
     .ifEmpty { exit 1, "params.fastq_dir was empty - no input files supplied" }
     .set { reads_list } //stocke les pairs de fastq dans reads_list
 
 workflow {
     kneaddata(reads_list, params.human_transcriptome, params.human_genome)
-    // check_and_cleanup(kneaddata.out.paired)
     merge_knead(kneaddata.out.tabCount.collect())
     kraken(kneaddata.out.paired)
     generate_original_kreport(kraken.out.sampleName, kraken.out.minimizer_report)
