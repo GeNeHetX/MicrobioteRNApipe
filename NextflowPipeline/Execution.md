@@ -38,22 +38,31 @@ In the IFB cluster, you have to create a directory where you will copy all the d
 
 To do so, use the following command :
 
-`cd /shared/projects/PROJECT_NAME/`
-
-`mkdir DIRECTORY_NAME`
+```
+cd /shared/projects/PROJECT_NAME/
+```
+```
+mkdir DIRECTORY_NAME
+```
 
 Inside of this directory, create a folder for each of the databases using the following commands:
 
-`cd DIRECTORY_NAME`
+```
+cd DIRECTORY_NAME
+```
 
-`mkdir human_genome`
-
-`mkdir human_transcriptome`
-
-`mkdir silva16s`
-
-`mkdir KrakenDB`
-
+```
+mkdir human_genome
+```
+```
+mkdir human_transcriptome
+```
+```
+mkdir silva16s
+```
+```
+mkdir KrakenDB
+```
 
 Then, copy all the databases that you downloaded to the directory directory using the following commands:
 
