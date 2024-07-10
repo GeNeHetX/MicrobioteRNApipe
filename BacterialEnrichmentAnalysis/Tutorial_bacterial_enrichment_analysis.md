@@ -1,13 +1,5 @@
----
-title: "Bacterial enrichment analysis tutorial"
-output:
-  pdf_document: default
-  html_document:
-    theme: cerulean
-    highlight: tango
-date: "2024-06-27"
-author: "Ali Youncha"
----
+## Authors
+
 
 # Introduction
 
