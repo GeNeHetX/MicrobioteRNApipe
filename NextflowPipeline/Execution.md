@@ -179,7 +179,7 @@ The filtering parameters that are required for certain tools of the pipeline can
 These parameters can be adjusted as needed to match your actual paths.
 
 
-# 3. Pipeline execution on the IFB cluster
+# 4. Pipeline execution on the IFB cluster
 
 
 Once u have adjusted all the parameters to match what you desire to analyze, executing the pipeline will require running three commands in the following order:
