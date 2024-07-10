@@ -188,16 +188,11 @@ Once u have adjusted all the parameters to match what you desire to analyze, exe
 First, in your IFB terminal, move to the desired folder where you want to obtain the results of the execution of the pipeline using this command:
 
 ```
+**output_dir** = `"/shared/projects/microbiote_pdacrna/ali/Melanoma_run"`
 cd $output_dir
 ```
 
-Then, create a screen to visualize the execution state of the pipeline using this command:
-
-```
-screen -S SCREEN_NAME
-```
-
-Finally, run the following command to execute the pipeline:
+Then, run the following command to execute the pipeline:
 
 ```
 sbatch PATH_TO_JOB_EXECUTION PATH_TO_PIPELINE_MAIN PATH_TO_CONFIGURATION_FILE
