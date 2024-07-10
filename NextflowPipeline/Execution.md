@@ -122,14 +122,23 @@ The FASTQ input file parameter can be adjusted
 Here is an example of the parameters in the configuration file of the pipeline:
 
 **fastq_dir** = "/shared/projects/pancreas_microbiote_rna/set_ech_melanome"
+
 **human_genome** = "/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_genome"
+
 **human_transcriptome** = "/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_transcriptome"
+
 **silva16s** = "/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/silva16S"
+
 **kraken_db** = "/shared/projects/vmdc_wgte/krakenDB"
+
 **confidence_score**: "0.1"
+
 **threshold**: "0"
+
 **project_dir** = "/shared/projects/can_mic/newMetagen"
+
 **output_dir** = "/shared/projects/microbiote_pdacrna/ali/Melanoma_run"
+
 
 These parameters can be adjusted as needed to match your actual paths.
 
