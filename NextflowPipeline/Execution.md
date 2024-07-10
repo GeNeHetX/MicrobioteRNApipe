@@ -13,7 +13,9 @@ Then, in case that you don't have the following databases :
 
 Download the first three databases by running the  the following commands in your terminal : 
 
-`pip install kneaddata`
+```
+pip install kneaddata
+```
 
 `kneaddata_database --download human_genome bowtie2 HUMAN_GENOME_DATABASE_OUTPUT_FOLDER`
 
