@@ -149,7 +149,7 @@ The FASTQ input file parameter can be adjusted on the `test.config` configuratio
 
 Here is an example of how this parameter is defined:
 
-- **fastq_dir** = "/shared/projects/pancreas_microbiote_rna/set_ech_melanome"
+- **fastq_dir** = `"/shared/projects/pancreas_microbiote_rna/set_ech_melanome"`
 
 NB: If you have samples that end with _001 (such as retina_A1_R1_001.fastq), you have also to replace this parameter:
 
@@ -165,13 +165,13 @@ suffix = "*{1,2}_001"
 
 The different databases needed to run the pipeline are present on the `test.config` configuration file of the pipeline.
 
-- **human_genome** = **"/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_genome"**
+- **human_genome** = `"/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_genome"`
 
-- **human_transcriptome** = **"/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_transcriptome"**
+- **human_transcriptome** = `"/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/human_transcriptome"`
 
-- **silva16s** = **"/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/silva16S"**
+- **silva16s** = `"/shared/projects/microbiote_pdacrna/anne/newMetagen/ref/silva16S"`
 
-- **kraken_db** = **"/shared/projects/vmdc_wgte/krakenDB"**
+- **kraken_db** = `"/shared/projects/vmdc_wgte/krakenDB"`
 
 Adjust them as needed based on the localization of your databases in the IFB cluster
 
@@ -179,16 +179,16 @@ Adjust them as needed based on the localization of your databases in the IFB clu
 
 The filtering parameters that are required for certain tools of the pipeline can be adjusted on the `test.config` configuration file of the pipeline.
 
-- **confidence_score**: **"0.1"**
+- **confidence_score**: `"0.1"`
 
-- **threshold**: **"0"**
+- **threshold**: `"0"`
 
 
 ##  3.4   Project and Output directories
 
-- **project_dir** = **"/shared/projects/can_mic/newMetagen"**
+- **project_dir** = `"/shared/projects/can_mic/newMetagen"`
 
-- **output_dir** = **"/shared/projects/microbiote_pdacrna/ali/Melanoma_run"**
+- **output_dir** = `"/shared/projects/microbiote_pdacrna/ali/Melanoma_run"`
 
 
 These parameters can be adjusted as needed to match your actual paths.
