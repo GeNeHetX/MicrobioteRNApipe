@@ -179,12 +179,15 @@ The filtering parameters that are required for certain tools of the pipeline can
 These parameters can be adjusted as needed to match your actual paths.
 
 
-Finally, executing the pipeline will require running three commands in the following order:
+# 3. Pipeline execution on the IFB cluster
 
 
-First, move to the desired folder where you want to obtain the results of the execution of the pipeline using this command:
+Once u have adjusted all the parameters to match what you desire to analyze, executing the pipeline will require running three commands in the following order:
 
-`cd PATH_TO_YOUR_OUTPUT_FOLDER`
+
+First, in your IFB terminal, move to the desired folder where you want to obtain the results of the execution of the pipeline using this command:
+
+`cd $output_dir`
 
 
 Then, create a screen to visualize the execution state of the pipeline using this command:
@@ -198,11 +201,11 @@ Finally, run the following command to execute the pipeline:
 
 With:
 
-PATH_TO_JOB_EXECUTION: The path containing the .job pipeline execution file.
+PATH_TO_JOB_EXECUTION: The path containing the launch_nf.job pipeline execution file (e.g : /shared/projects/can_mic/newMetagen/script/launch_nf.job)
 
-PATH_TO_PIPELINE_MAIN: The path containing the .nf pipeline execution file.
+PATH_TO_PIPELINE_MAIN: The path containing the main_microbiote_pipeline.nf pipeline execution file. (e.g : /shared/projects/can_mic/newMetagen/main/main_microbiote_pipeline.nf)
 
-PATH_TO_CONFIGURATION_FILE: The path containing the .config pipeline configuration file.
+PATH_TO_CONFIGURATION_FILE: The path containing the .config pipeline configuration file. (e.g : /shared/projects/can_mic/newMetagen/config/test.config)
 
 
 
