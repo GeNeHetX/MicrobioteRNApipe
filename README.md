@@ -18,11 +18,7 @@ To check the necessary dependencies before running the pipeline, click on the fo
 
 ## Execution
 
-In order to retrieve the commands that execute the pipeline, click on the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Execution.md)
-
-## Parameters
-
-To look at the several parameters that can be adjusted before the pipeline execution, click on the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Parameters.md)
+The execution of the pipeline requires following several steps that can be found in this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Execution.md)
 
 ## Output files:
 
@@ -33,7 +29,7 @@ Once the pipeline is executed successfully, you will obtain several results :
 
 ## Possible analysis from MicrobioteRNAPipe output results
 
-- If you want to retrieve the bacterial composition pie-chart of all your samples, check the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/PythonScripts/2_Samples_Bacterial_PieCharts/README.md)
+- If you want to retrieve the microbial composition pie-chart of all your samples, check the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/PythonScripts/2_Samples_Bacterial_PieCharts/README.md)
 
 - if you didn't run all the samples on the same pipeline and want to generate one OTU and TAX table of all these samples, check this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/PythonScripts/1_MergeOTU_TAX_files/README.md) 
 
