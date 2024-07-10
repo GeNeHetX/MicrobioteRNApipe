@@ -97,7 +97,7 @@ Once the folder is created, run this command on your terminal:
 `rsync -v -r MicrobioteRNAPipe/ YOUR_IFB_USERNAME@core.cluster.france-bioinformatique.fr:/shared/projects/PROJECT_NAME/script/`
 
 
-## 3. Parameters modification
+# 3. Parameters modification
 
 Now that you have all the requirements to execute the pipeline, the test.config file should be adjusted to successfully execute the pipeline.
 
@@ -112,6 +112,11 @@ This file contains several parameters :
 - **threshold**: The number of reads assigned threshold that is used to filter genus/species taxa. 
 - **project_dir**: the project directory where you have all the necessary files and databases to execute the pipeline
 - **output_dir**: the directory where you want to obtain your results
+
+##  3.1  Input files parameter
+
+The FASTQ input file parameter can be adjusted
+
 
 Here is an example of the parameters in the configuration file of the pipeline:
 
