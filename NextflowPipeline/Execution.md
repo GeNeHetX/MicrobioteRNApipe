@@ -15,17 +15,11 @@ Download the first three databases by running the  the following commands in you
 
 ```
 pip install kneaddata
-```
 
-```
 kneaddata_database --download human_genome bowtie2 HUMAN_GENOME_DATABASE_OUTPUT_FOLDER
-```
 
-```
 kneaddata_database --download human_transcriptome bowtie2 HUMAN_TRANSCRIPTOME_DATABASE_OUTPUT_FOLDER
-```
 
-```
 kneaddata_database --download ribosomal_RNA bowtie2 SILVA16S_DATABASE_OUTPUT_FOLDER
 ```
 
@@ -40,8 +34,7 @@ To do so, use the following command :
 
 ```
 cd /shared/projects/PROJECT_NAME/
-```
-```
+
 mkdir DIRECTORY_NAME
 ```
 
@@ -49,18 +42,13 @@ Inside of this directory, create a folder for each of the databases using the fo
 
 ```
 cd DIRECTORY_NAME
-```
 
-```
 mkdir human_genome
-```
-```
+
 mkdir human_transcriptome
-```
-```
+
 mkdir silva16s
-```
-```
+
 mkdir KrakenDB
 ```
 
@@ -97,8 +85,7 @@ First, create a directory on the IFB cluster:
 
 ```
 cd /shared/projects/PROJECT_NAME/DIRECTORY_NAME/
-```
-```
+
 mkdir main
 ```
 
@@ -117,8 +104,6 @@ The last step is to create a script folder inside your project that will contain
 
 ```
 cd ..
-```
-```
 mkdir script
 ```
 Once the folder is created, run this command on your terminal:
