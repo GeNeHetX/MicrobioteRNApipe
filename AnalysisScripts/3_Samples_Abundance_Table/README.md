@@ -19,4 +19,4 @@ With:
 
 Make sure that your script is located in the directory where you run this command.
 
-When you generate this file, you can use it to perform Bacterial set enrichment analysis. Check the following [Tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/BacterialEnrichmentAnalysis/Tutorial_bacterial_enrichment_analysis.md)
+When you generate this file, you can use it to perform Bacterial set enrichment analysis. Check the following [Tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/BacterialEnrichmentAnalysis/Tutorial_bacterial_enrichment_analysis.md) 
