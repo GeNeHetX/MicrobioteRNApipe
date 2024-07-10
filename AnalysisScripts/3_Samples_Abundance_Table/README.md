@@ -1,19 +1,22 @@
-## Identification of bacteria in FFPE samples using RNAseq
+#  Generating Genus/Species abundance table files from the set of kreport files
 
-## Description
+From the set of Kreport files that you obtain after executing the pipeline, it is possible to generate an abundance table for Genus/Species taxa.
 
-This pipeline was designed to detect and identify non human DNA in RNA seq data, in order to have a separation between human and non human reads.  
+* Download the Create_abundance_file.py script available in the 3_Samples_Abundance_Table folder
 
-It uses **Kneaddata** software for quality control and decontamination. It allows us to keep paired reads that do not match (or align) the databases used as filters.  
+* Then, open a terminal and run the following command
 
-Then it uses **Kraken2** to assign each read that passed those filtering criteria to a known taxon.
-
-It also uses **Nextflow** and **singularity** for easy deployment on any machine or HPC and to ensure reproducibility of results.
+`python generate_pie_charts.py -i PATH_TO_YOUR_KREPORT_FILES_FOLDER -o PATH_TO_YOUR_OUTPUT_FILE -t "G"`
 
 
-## Output files:
+With:
 
-Once the pipeline is executed succesfully, you will obtain several results :
+-i (PATH_TO_YOUR_KREPORT_FILES_FOLDER): The path containing all your Kreport files
 
-- Kraken step of the pipeline provides a taxonomic classification file for all the samples that were taken into account in the run.
-- An OTU and TAX table will be generated at the end of the pipeline's execution. These files can be used then to perform several analysis, such as Bacterial diversity using Alpha and Beta diversity approaches, Bacterial enrichment set analysis, as well as the possibility to generate the  bacterial diversity pie-chart of the samples and to generate a table of abundance for all samples. Note that each folder of this repository contains all the necessary step to perform the several analysis mentionned earlier. 
+-o (PATH_TO_YOUR_OUTPUT_FILE): The path where you desire to obtain your csv file
+
+-t ("G"): The taxa level that will be taken into account to generate the abundance table. Adjust it to "S" in case you want to retrieve the species abundance table file.
+
+Make sure that your script is located in the directory where you run this command.
+
+When you generate this file, you can use it to perform Bacterial set enrichment analysis. Check the following [Tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/BacterialEnrichmentAnalysis/Tutorial_bacterial_enrichment_analysis.md)
