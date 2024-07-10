@@ -1,14 +1,8 @@
----
-title: "Alpha and Beta Diversity Analysis Tutorial PART 2"
-output:
-  pdf_document: default
-  html_document:
-    theme: cerulean
-    highlight: tango
-date: "2024-06-27"
-author: "Ali Youncha"
----
+## Authors
 
+- [Ali YOUNCHA](https://github.com/MrAli1582)
+
+  
 # Introduction
 
 This tutorial demonstrates how to directly modify the functions.R script to match
