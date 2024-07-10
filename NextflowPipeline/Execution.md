@@ -17,12 +17,17 @@ Download the first three databases by running the  the following commands in you
 pip install kneaddata
 ```
 
-```kneaddata_database --download human_genome bowtie2 HUMAN_GENOME_DATABASE_OUTPUT_FOLDER```
+```
+kneaddata_database --download human_genome bowtie2 HUMAN_GENOME_DATABASE_OUTPUT_FOLDER
+```
 
-`kneaddata_database --download human_transcriptome bowtie2 HUMAN_TRANSCRIPTOME_DATABASE_OUTPUT_FOLDER`
+```
+kneaddata_database --download human_transcriptome bowtie2 HUMAN_TRANSCRIPTOME_DATABASE_OUTPUT_FOLDER
+```
 
-`kneaddata_database --download ribosomal_RNA bowtie2 SILVA16S_DATABASE_OUTPUT_FOLDER`
-
+```
+kneaddata_database --download ribosomal_RNA bowtie2 SILVA16S_DATABASE_OUTPUT_FOLDER
+```
 
 Then download the kraken database using the following [link](https://genome-idx.s3.amazonaws.com/kraken/k2_standard_20230314.tar.gz) (64Gb)
 
