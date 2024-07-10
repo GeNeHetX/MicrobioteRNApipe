@@ -201,7 +201,7 @@ Finally, run the following command to execute the pipeline:
 
 With:
 
-PATH_TO_JOB_EXECUTION: The path containing the launch_nf.job pipeline execution file (e.g : /shared/projects/can_mic/newMetagen/script/launch_nf.job)
+PATH_TO_JOB_EXECUTION: The path containing the launch_nf.job execution file (e.g : /shared/projects/can_mic/newMetagen/script/launch_nf.job)
 
 PATH_TO_PIPELINE_MAIN: The path containing the main_microbiote_pipeline.nf pipeline execution file. (e.g : /shared/projects/can_mic/newMetagen/main/main_microbiote_pipeline.nf)
 
