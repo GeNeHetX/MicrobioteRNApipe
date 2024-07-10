@@ -17,7 +17,7 @@ Download the first three databases by running the  the following commands in you
 pip install kneaddata
 ```
 
-`kneaddata_database --download human_genome bowtie2 HUMAN_GENOME_DATABASE_OUTPUT_FOLDER`
+```kneaddata_database --download human_genome bowtie2 HUMAN_GENOME_DATABASE_OUTPUT_FOLDER```
 
 `kneaddata_database --download human_transcriptome bowtie2 HUMAN_TRANSCRIPTOME_DATABASE_OUTPUT_FOLDER`
 
