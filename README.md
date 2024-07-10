@@ -37,7 +37,7 @@ Once the pipeline is executed successfully, you will obtain several results :
 
 - if you didn't run all the samples on the same pipeline and want to generate one OTU and TAX table of all these samples, check this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/PythonScripts/1_MergeOTU_TAX_files/README.md) 
 
-- If you want to perform Alpha and Beta diversity analyses using the OTU and TAX table outputs of the pipeline, check the first part of the [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta.pdf) and it's second part [tutorial_P2](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta_part2.pdf)
+- If you want to perform Alpha and Beta diversity analyses using the OTU and TAX table outputs of the pipeline, check the first part of the [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta.md) and it's second part [tutorial_P2](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta_part2.md)
 
-- Finally, if you want to perform Bacterial set enrichment analysis, check the following [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/BacterialEnrichmentAnalysis/Tutorial_bacterial_enrichment_analysis.pdf)
+- Finally, if you want to perform Bacterial set enrichment analysis, check the following [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/BacterialEnrichmentAnalysis/Tutorial_bacterial_enrichment_analysis.md)
 
