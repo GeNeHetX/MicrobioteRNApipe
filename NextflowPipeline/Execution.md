@@ -1,4 +1,4 @@
-# 1. Git cloning and necessary folders for the pipeline execution
+# 1. Git cloning and requirements for the pipeline execution
 
 First of all, you have to clone this git repository using the following command:
 
