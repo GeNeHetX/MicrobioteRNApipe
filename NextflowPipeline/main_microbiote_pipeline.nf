@@ -84,7 +84,7 @@ process merge_knead {
 
     script:
     """
-        python ${params.project_dir}/script/merge_knead.py -i ${knead_count.join(' ')} -o .
+        python ${params.script_dir}/merge_knead.py -i ${knead_count.join(' ')} -o .
     """ 
 }
 
@@ -135,7 +135,7 @@ process kraken {
         --output ${sample}_reads.krak \
         --report ${sample}_reads_minimizer.kreport \
         --report-minimizer-data \
-        --confidence 0.1 \
+        --confidence ${params.confidence_score} \
         ${reads} 
     """ 
 }    
@@ -170,7 +170,7 @@ process generate_original_kreport {
     
     script:
     """
-        python ${params.project_dir}/script/create_krakenfile.py ${kreport} ${sample}_reads.kreport
+        python ${params.script_dir}/create_krakenfile.py ${kreport} ${sample}_reads.kreport
     """
 }
 
@@ -203,7 +203,7 @@ process filter_kreport_file {
 
     script:
     """
-        python ${params.project_dir}/script/Minimizer_report_filtering.py -i ${kreport} -o ${sample}_filtered.kreport -t ${params.threshold}
+        python ${params.script_dir}/Minimizer_report_filtering.py -i ${kreport} -o ${sample}_filtered.kreport -t ${params.threshold}
 
     """
     }
@@ -236,7 +236,7 @@ process filter_kreport_original_file {
 
     script:
     """
-        python ${params.project_dir}/script/Original_report_filtering.py -i ${kreport_original} -o ${sample}_original_filtered.kreport -t ${params.threshold}
+        python ${params.script_dir}/Original_report_filtering.py -i ${kreport_original} -o ${sample}_original_filtered.kreport -t ${params.threshold}
 
     """
     }
@@ -302,7 +302,7 @@ process biom_tab {
 
     script:
     """
-        Rscript ${params.project_dir}/script/biom.r -tab ${biom_data} 
+        Rscript ${params.script_dir}/biom.r -tab ${biom_data} 
     """ 
 }
 
@@ -333,7 +333,7 @@ process keep_bacteria_only {
         path("otu_table.csv"), emit: otu_table
     script:
     """
-        Rscript ${params.project_dir}/script/keep_bacteria.r ${tax_table} ${otu_table}
+        Rscript ${params.script_dir}/keep_bacteria.r ${tax_table} ${otu_table}
     """ 
 }
 
