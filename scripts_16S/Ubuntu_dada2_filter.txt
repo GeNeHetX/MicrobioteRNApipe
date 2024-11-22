@@ -1,0 +1,3 @@
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/beaujon/r
+
+R < 220429_beaujon_filtered_multithread.R --no-save

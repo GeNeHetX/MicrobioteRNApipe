@@ -1,0 +1,40 @@
+## ne pas trimmer zymo
+## trimmer avant de pairer
+
+FORWARD
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/pancreas/fastq/agil_fz/Forward/3_trimmed
+for file in *.fastq
+do
+cutadapt -a GATCGGAAGAGCACACGTCTGAACTCCAGTCAC -m 1 -o t$file $file --cores=20 
+done
+
+REVERSE 
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/pancreas/fastq/agil_fz/Reverse/3_trimmed
+for file in *.fastq
+do
+cutadapt -g GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC -m 1 -o t$file $file --cores=20 
+done
+
+
+SEARCH SEQUENCE
+
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/pancreas/fastq/smarter_ffpe
+for file in *.fastq
+do
+grep -Fvw 'AGTCAAGTACGAAATGGGACCTGAT' -f $file t$file 
+done
+
+do
+cutadapt -a AGTCAAGTACGAAATGGGACCTGATX -o t$file $file --cores=20 
+done
+
+RANDO SEQUENCES
+do
+seqtk sample -s100 $file 0.1 > t$file
+done
+
+for file in *.fq
+do
+cutadapt -g GACTACHVGGGTATCTAATCC -m 1 -o t2$file $file --cores=20 
+done
+
