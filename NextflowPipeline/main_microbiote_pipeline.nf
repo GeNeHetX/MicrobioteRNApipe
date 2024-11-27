@@ -355,7 +355,7 @@ workflow {
     merge_knead(kneaddata.out.tabCount.collect())
     kraken(kneaddata.out.paired)
     generate_original_kreport(kraken.out.sampleName, kraken.out.minimizer_report)
-    filter_kreport_file(kraken.out.sampleName, kraken.out.minimizer_report)
+    #filter_kreport_file(kraken.out.sampleName, kraken.out.minimizer_report)
     filter_kreport_original_file(kraken.out.sampleName, generate_original_kreport.out.kreport)
     run_Kraken2biom(generate_original_kreport.out.kreport.collect())
     biom_tab(run_Kraken2biom.out.biom_data)
