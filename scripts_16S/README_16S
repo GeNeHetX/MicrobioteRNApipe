@@ -4,4 +4,24 @@
 
 # Identification of bacteria in FFPE samples using 16S DNA
 
-## Description : Comming soon
+## Description :
+I) [Prepare genome and Fastq](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/issueScriptDir/scripts_16S/Ubuntu_filtre_bwa.txt)
+  1) build with bwa the index ref.fa from genome 
+  2) filter fastq with [FastQ Screen](https://www.bioinformatics.babraham.ac.uk/projects/fastq_screen/_build/html/index.html#download) + preprocess fastq (detag)
+  3) remove adaptaters, primers and short reads (<5 pb) with [cutadapt](https://cutadapt.readthedocs.io/en/v4.9/guide.html) and [Ubuntu_cutadapt scripts](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/issueScriptDir/scripts_16S/Ubuntu_cutadapt_agilent.txt) (get primers and adapters from Qiagen sequencing kit, example [here](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/issueScriptDir/scripts_16S/comment%20trimmer%20qiagen.docx))
+  4) pair with FastQ Screen (use Ubuntu_filtre_bwa.txt again for this step)
+
+II) [Analysis with R](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/issueScriptDir/scripts_16S/240924_compV1V9V1V9_fzffpe.R)
+  5) [dada2](https://benjjneb.github.io/dada2/tutorial.html)
+    a) filter reads (quality)
+    b) estimation error rates
+    c) algorithm dada2 for ASV generation
+    d) remove chimeras (ideally threshold <20% per sample)
+    e) generate otu table
+    e) generate tax table by assignement ASV to taxa from reference database (SILVA or RDP (not Greengene))
+  6) [Phyloseq](https://vaulot.github.io/tutorials/Phyloseq_tutorial.html)
+    a) filter ps object (decontamination and genus agglomeration)
+    b) composition visualisation
+    c) alpha diversity (Chao1, Shannon)
+    d) beta diversity (PERMANOVA, PCA)
+    e) differential analysis (Maaslin2)
