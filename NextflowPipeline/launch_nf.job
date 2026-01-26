@@ -6,12 +6,13 @@
 #SBATCH -c 1
 #SBATCH -t 24:00:00
 
-PIPELINE=$1
-CONFIG=$2
 
-export JAVA_HOME=/shared/software/conda/envs/nextflow-23.10.1
+module purge
+module load nextflow/23.10.1 
 
-module load nextflow/23.10.1
+
+PIPELINE="/shared/projects/microbiote_pdacrna/MicrobioteRNApipe/NextflowPipeline/main_microbiote_pipeline.nf"
+CONFIG="/shared/projects/microbiote_pdacrna/MicrobioteRNApipe/NextflowPipeline/test.config"
 
 ## Adjust this command by keeping or removing the -resume option
 nextflow -C ${CONFIG} run ${PIPELINE} -resume
