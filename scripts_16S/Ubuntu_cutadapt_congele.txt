@@ -1,0 +1,126 @@
+## trimmer avant de pairer
+## enlever les index patients aussi
+
+FORWARD V1V9 (a=trimmeà gauche, g= trimme à droite)
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/Pancreas/FastQ/v1v9_ffpe/Forward/2_filtered_bwa
+for file in *.fastq
+do
+cutadapt -a GGACTCCAATACGCTAAGAA -o t$file $file --cores=20 
+done
+
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/Pancreas/FastQ/v1v9_ffpe/Forward/3_trimmed
+**** (peu)
+for file in *.fastq
+do
+cutadapt -g AGRGTTTGATYMTGGCTC -o t2$file $file --cores=20 
+done
+**** (peu)
+for file in *.fastq
+do
+cutadapt -g GGCGNACGGGTGAGTAA -o t3$file $file --cores=20 
+done
+
+for file in *.fastq
+do
+cutadapt -g CCTACGGGNGGCWGCAG -o t4$file $file --cores=20 
+done
+
+for file in *.fastq
+do
+cutadapt -g GTGYCAGCMGCCGCGGTAA -o t5$file $file --cores=20 
+done
+
+for file in *.fastq
+do
+cutadapt -g GGATTAGATACCCBRGTAGTC -o t6$file $file --cores=20 
+done
+
+***** (peu)
+for file in *.fastq
+do
+cutadapt -g YAACGAGCGMRACCC -m 5 -o t7$file $file --cores=20 
+done
+
+REVERSE V1V9
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/Pancreas/FastQ/v1v9_ffpe/Reverse/2_filtered_bwa
+for file in *.fastq
+do
+cutadapt -a CAAAACGCAATACTGTACATT -o t$file $file --cores=20 
+done
+
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/Pancreas/FastQ/v1v9_ffpe/Reverse/3_trimmed
+for file in *.fastq
+do
+cutadapt -g CTGCTGCCTYCCGTA -o t2$file $file --cores=20 
+done
+
+for file in *.fastq
+do
+cutadapt -g WTTACCGCGGCTGCTGG -o t3$file $file --cores=20 
+done
+
+for file in *.fastq
+do
+cutadapt -g GACTACHVGGGTATCTAATCC -o t4$file $file --cores=20 
+done
+
+for file in *.fastq
+do
+cutadapt -g CCGYCAATTYMTTTRAGTTT -o t5$file $file --cores=20 
+done
+
+for file in *.fastq
+do
+cutadapt -g ACGTCRTCCCCDCCTTCCTC -o t6$file $file --cores=20 
+done
+
+for file in *.fastq
+do
+cutadapt -g TACGGYTACCTTGTTAYGACTT -m 5 -o t7$file $file --cores=20 
+done
+
+
+
+FORWARD V3V4
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/pancreas/FastQ/v3v4_fz/Forward/4_trimmed
+for file in *.fq
+do
+cutadapt -a GGACTCCAATACGCTAAGAA -o t$file $file --cores=20 
+done
+
+for file in *.fq
+do
+cutadapt -g CCTACGGGNGGCWGCAG -m 1 -o t2$file $file --cores=20 
+done
+
+
+REVERSE V3V4
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/pancreas/FastQ/v3v4_fz/Reverse/4_trimmed
+for file in *.fq
+do
+cutadapt -a CAAAACGCAATACTGTACATT -o t$file $file --cores=20 
+done
+
+SEARCH SEQUENCE
+
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/pancreas/fastq/smarter_ffpe
+for file in *.fastq
+do
+grep -Fvw 'AGTCAAGTACGAAATGGGACCTGAT' -f $file t$file 
+done
+
+do
+cutadapt -a AGTCAAGTACGAAATGGGACCTGATX -o t$file $file --cores=20 
+done
+
+RANDO SEQUENCES
+do
+seqtk sample -s100 $file 0.1 > t$file
+done
+
+
+for file in *.fq
+do
+cutadapt -g GACTACHVGGGTATCTAATCC -m 1 -o t2$file $file --cores=20 
+done
+

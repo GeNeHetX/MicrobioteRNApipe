@@ -6,7 +6,7 @@
 
 ## Description
 
-This pipeline was designed to detect and identify non human RNA reads in RNA seq data, in order to have a separation between human and non human reads.  
+This pipeline was designed to detect and identify non human RNA reads in RNA seq data, in order to have a separation between human and non human reads.
 
 It uses **Kneaddata** software for quality control and decontamination. It allows us to keep paired reads that do not match (or align) the databases used as filters.  
 
@@ -14,22 +14,66 @@ Then it uses **Kraken2** to assign each read that passed those filtering criteri
 
 It also uses **Nextflow** and **singularity** for easy deployment on any machine or HPC and to ensure reproducibility of results.
 
+**Warning**: This pipeline was developed on an HPC clusterr ([IFB](https://www.france-bioinformatique.fr/cluster-ifb-core/)), you might need a few adjustments to run it locally.
 
-## 00_Dependencies
+## Dependencies
 
-To check the necessary dependencies before running the pipeline, click on the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Dependencies.md) 
+To run this pipeline you will need to have installed on your machine:
+* [Nextflow](https://www.nextflow.io/) (version 23.10.1)
+* [Singularity](https://docs.sylabs.io/guides/3.5/user-guide/index.html) (version 3.5.3)
+* [Kneaddata](https://github.com/biobakery/kneaddata)
+* [Kraken2](https://github.com/DerrickWood/kraken2)
+
+Please check the specific dependencies for each tool. For beginners, more information and command lines are available in this file: [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Dependencies.md).
+
+## Input files:
+
+To run this pipeline you will need to provide:
+* Fastq
+* [Kneaddata database](https://github.com/biobakery/kneaddata?tab=readme-ov-file#download-the-database) with human genome, human transcriptome and silva16S directories
+* [Kraken2 database](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.html)
+
+Example command lines to download Kraken2 and Kneaddata databases are availables [here](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Dependencies.md).
+
+**Note**: If you are running this microbiome analysis in parallel with a human analysis, you can use the unmapped reads from your human alignment with STAR. This will reduce the size of the FASTQ files and decrease processing time.
+
+## Arguments and Parameters:
+To run, this pipeline requires a few arguments specific to yours files:
+* fastq_dir : directory with the fastqs to process
+* suffix : suffix of your fastq files
+* human_genome : kneaddata database directory with human genome files
+* human_transcriptome : kneaddata database directory  with human transcriptome files
+* silva16s : kneaddata database directory  with silva16s files
+* kraken_db : kraken2 database directory
+
+* script_dir : path the 'PipelineScripts' directory of Microbiote_pdacrna pipeline
+* output_dir : path to save output files
+* work_dir : path to save the nextflow work directory
+
+There is also two parameters you can adjust acording to your data and preferences:
+* threshold : threshold for number of reads filtering
+* confidence_score : confidence kraken score
 
 
-## 01_Pipeline execution steps
+All thoses parameters needs to be store in a config file. You can find an example [here](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/example.config).
 
-The execution of the pipeline requires following several steps that can be found in this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/PipelineExecution.md)
+## Pipeline execution steps
+To run pipeline with nextflow:
+```
+nextflow -C path/to/file.config run path/to/MicrobioteRNApipe/NextflowPipeline/main_microbiote_pipeline.nf -resume
+```
+
+To run pipeline with a job file :
+```
+sbatch PATH_TO_JOB_EXECUTION PATH_TO_PIPELINE_MAIN PATH_TO_CONFIGURATION_FILE
+```
 
 ## Output files:
 
 Once the pipeline is executed successfully, you will obtain several results :
 
-- Kraken step of the pipeline provides a taxonomic classification file for all the samples that were taken into account in the run.
-- An OTU and TAX table will be generated at the end of the pipeline's execution. 
+- Kraken kreports : Kraken step of the pipeline provides a taxonomic classification file for all the samples that were taken into account in the run.
+- OTU and TAX tables : two tables will be generated at the end of the pipeline's execution. 
 
 ## Possible analysis from MicrobioteRNAPipe output results
 

@@ -1,0 +1,12 @@
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/beaujon/beaujon_frozen/fastq/dataMountDirectory/input/sequence
+
+cutadapt -m 275 -M 275  -o out.1.fastq -p out.2.fastq standard_submitted_R1.fastq standard_submitted_R2.fastq --cores=20 
+done
+
+
+dockerd 
+
+docker container run -v /mnt/d/professionnel/thesescience/microbiote/analyses/Sein/FastQ/Forward/2_filtered_bwa/docker -e SAMPLENAME=My_Sample_Name -e FORWARDPRIMERLENGTH=20 -e REVERSEPRIMERLENGTH=21 -e AMPLICONLENGTH=478 zymoweb/miqscore16spublic
+
+
+

@@ -1,0 +1,6 @@
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/shiva/fastq/filtered_single
+for file in *.fastq
+do
+wc -l $(file) >> lineCount.txt
+done
+

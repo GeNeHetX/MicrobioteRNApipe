@@ -1,0 +1,43 @@
+création des bwa index files de la séquence de référence : 
+
+bwa index ref.fa 
+https://www.bioinformatics.babraham.ac.uk/projects/fastq_screen/_build/html/index.html
+
+filtrer les fastq :
+
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/Pancreas/FastQ/v1v9_ffpe/Reverse/1_original
+for file in *.fastq
+do
+/mnt/d/professionnel/thesescience/microbiote/analyses/FastQ-Screen-0.15.1/fastq_screen --tag --filter 30 --inverse "$file"
+done
+
+filtre pour les SC :
+
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/Pancreas/FastQ/v1v9_ffpe/Reverse
+for file in *.fastq
+do
+/mnt/d/professionnel/thesescience/microbiote/analyses/FastQ-Screen-0.15.1/fastq_screen --tag --filter 03  "$file"
+done
+
+
+enlever le tag :
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/Pancreas/FastQ/v1v9_ffpe/Reverse/2_filtered_bwa
+for f in *.fastq
+do
+sed "s/#FQST.*$//g" "$f" > "${f/%.fastq/rename.fastq}"
+done
+
+pairer forward et reverse :
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/Pancreas/FastQ/v1v9_ffpe/Reverse/4_paired
+fastq_pair t7t6t5t4t3t2tV728R01_trimmed_R1.tagged_filterrename.fastq t7t6t5t4t3t2tV728R01_trimmed_R2.tagged_filterrename.fastq
+
+
+(juste pour tagger : 
+
+cd /mnt/d/professionnel/thesescience/microbiote/analyses/shiva/runtest/fastq
+for file in *.fastq
+do
+/mnt/d/professionnel/thesescience/microbiote/analyses/FastQ-Screen-0.15.1/fastq_screen --tag "$file"
+done
+)
+
