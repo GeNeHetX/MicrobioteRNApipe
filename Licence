@@ -5,8 +5,7 @@ Quality control and host read filtering : Raw sequencing reads are preprocessed 
 
 Taxonomic profiling and minimizers extraction : Taxonomic classification is performed on the unmapped reads using Kraken2 [3] with a confidence score threshold of 0.2 against the PlusPFP reference database. To ensure robust taxonomic assignment on low-biomass samples, minimizer statistics (total minimizers and unique minimizers per taxon) are extracted using the --report-minimizer-data flag and consolidated across samples.
 
-ROC-calibrated systematic decontamination : To eliminate batch effects, kitome contaminants, and false-positive algorithmic assignments, an empirical decontamination filter is implemented using receiver operating characteristic (ROC) curve analysis (pROC package [4]). The optimal threshold is determined via Youden's J statistic [5], combining cross-cohort ubiquity/prevalence across non-digestive control tissues and unique minimizer coverage calibrated on digestive positive reference controls. Taxa identified above the contamination threshold are compiled into an exclusion blacklist.
-
+ROC-calibrated systematic decontamination : To eliminate batch effects, kitome contaminants, and false-positive algorithmic assignments, an empirical decontamination filter is implemented using receiver operating characteristic (ROC) curve analysis (pROC package [4]). Bacterial taxa are functionally annotated according to their ecological habitat using isolation metadata retrieved from the BacDive database [5]. The optimal exclusion threshold is determined via Youden's J statistic [6], combining cross-cohort ubiquity/prevalence across non-digestive control tissues and unique minimizer coverage calibrated on digestive positive reference controls. Taxa identified above the contamination threshold are compiled into an exclusion blacklist.
 
 References
 [1] Bolger, A. M., Lohse, M., & Usadel, B. Trimmomatic: a flexible trimmer for Illumina sequence data. Bioinformatics, 30(15), 2114–2120 (2014). https://doi.org/10.1093/bioinformatics/btu170
@@ -17,5 +16,9 @@ References
 
 [4] Robin, X., Turck, N., Hainard, A., Tiberti, N., Lisacek, F., Sanchez, J. C., & Müller, M. pROC: an open-source package for R and S+ to analyze and compare ROC curves. BMC Bioinformatics, 12, 77 (2011). https://doi.org/10.1186/1471-2105-12-77
 
-[5] Youden, W. J. Index for rating diagnostic tests. Cancer, 3(1), 32–35 (1950). https://doi.org/10.1002/1097-0142(1950)3:1<32::aid-cncr2820030106>3.0.co;2-3
+[4] Robin, X., Turck, N., Hainard, A., Tiberti, N., Lisacek, F., Sanchez, J. C., & Müller, M. pROC: an open-source package for R and S+ to analyze and compare ROC curves. BMC Bioinformatics, 12, 77 (2011). https://doi.org/10.1186/1471-2105-12-77
+
+[5] Reimer, L. C., Sarda Carbasse, J., Koblitz, J., Ebeling, C., Podstawka, A., & Overmann, J. BacDive in 2022: the knowledge base for standardized bacterial phenotypic data. Nucleic Acids Research, 50(D1), D741–D746 (2022). https://doi.org/10.1093/nar/gkab961
+
+[6] Youden, W. J. Index for rating diagnostic tests. Cancer, 3(1), 32–35 (1950). https://doi.org/10.1002/1097-0142(1950)3:1<32::aid-cncr2820030106>3.0.co;2-3
 
