@@ -1,4 +1,4 @@
-MicrobioteRNApipe © 2026 by Agash Uthayakumar, Ali Youncha, Camille Pignolet, Lucie Gomes is licensed under CC BY-NC 4.0.
+MicrobioteRNApipe © 2026 by Agash Uthayakumar, Camille Pignolet, Lucie Gomes is licensed under CC BY-NC 4.0.
 
 Methods & Pipeline Description
 Quality control and host read filtering : Raw sequencing reads are preprocessed using Trimmomatic [1] to remove adapter sequences and filter out low-quality bases. Cleaned reads are aligned against the human reference genome (GRCh38) using STAR [2]. Unmapped reads (non-human fraction) are retained and extracted for downstream microbial profiling.
