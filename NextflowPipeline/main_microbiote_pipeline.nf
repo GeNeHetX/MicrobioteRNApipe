@@ -8,7 +8,7 @@ process kneaddata {
     errorStrategy 'retry'
 
     maxRetries 1
-
+    publishDir "${params.output_dir}/kraken_results", mode: 'copy'
     //publishDir path: "${params.output_dir}/kneaddata", mode: 'copy', overwrite: true, pattern: "${sample}_kneaddata/*"
     //publishDir path: "${params.output_dir}/kneaddata", mode: 'copy', overwrite: true, pattern: "${sample}_kneaddata/fastqc/*"
 
@@ -16,7 +16,7 @@ process kneaddata {
         //récupération du nom du fichier pour chaque paire et du chemin du fichier fastq
         //val: accède à la valeur d'entrée par son nom dans le script de processus.
         //path : Gère la valeur d'entrée comme un chemin, en plaçant correctement le fichier dans le contexte d'exécution.
-        tuple val(sample), path(reads)
+        tuple val(sample_id), path(reads)
         val(ref_transcriptome_human)
         val(ref_genome_human)
         // val(ref_silva16s)
@@ -25,150 +25,169 @@ process kneaddata {
 
         //tuple val(sample), file("${sample}_kneaddata/${sample}_Read_SILVA_128_LSUParc_SSUParc_ribosomal_RNA_bowtie2_paired_contam_1_{1,2}.fastq.gz")
         //file: Gère la valeur d'entrée en tant que fichier, en la mettant correctement en scène dans le contexte d'exécution.
-        tuple val(sample), path("${sample}_kneaddata/${sample}_paired_{1,2}.fastq"), emit: paired
+        tuple val(sample_id), path("${sample_id}_kneaddata/${sample_id}_paired_{1,2}.fastq"), emit: paired
+        tuple val(sample_id), path("${sample_id}_kneaddata/${sample_id}_unmatched_{1,2}.fastq"), emit: unmatched
         //tuple val(sample), file("${sample}_kneaddata/${sample}_paired_SILVA_128_LSUParc_SSUParc_ribosomal_RNA_bowtie2_contam_{1,2}.fastq"), emit: contam
         //tuple val(sample), file("${params.output_dir}/knead_count/${sample}_read_count_table.tsv")
-        path("${sample}_kneaddata/${sample}_read_count_table.tsv"), emit: tabCount
+        path("${sample_id}_kneaddata/${sample_id}_read_count_table.tsv"), emit: tabCount
+
         // path("${sample}_kneaddata/fastqc/${sample}{1,2}_fastqc.html")
         // path("${sample}_kneaddata/fastqc/${sample}_paired_{1,2}_fastqc.html")
-        file("${sample}_kneaddata/${sample}.log")
+        file("${sample_id}_kneaddata/${sample_id}.log")
         
         
     script:
+
+    def adapter_path = "/shared/projects/microbiote_pdacrna/AGASH/TruSeq3-PE-2-GGGGG.fa"
+    def id = sample_id instanceof List ? sample_id[0] : sample_id
+
     """
-        kneaddata \
-        --verbose \
-        --input1 ${reads[0]} \
-        --input2 ${reads[1]} \
-        --reference-db ${ref_genome_human} \
-        --reference-db ${ref_transcriptome_human} \
-        --remove-intermediate-output \
-        --bowtie2-options="--sensitive" \
-        --bypass-trf \
-        --run-fastqc-start \
-        --run-fastqc-end \
-        --threads ${task.cpus} \
-        --output-prefix ${sample} \
-        --output ${sample}_kneaddata
-         
-        kneaddata_read_count_table \
-        --input ${sample}_kneaddata \
-        --output ${sample}_kneaddata/${sample}_read_count_table.tsv
+    kneaddata \\
+        --verbose \\
+        -i1 ${reads[0]} \\
+        -i2 ${reads[1]} \\
+        -db /shared/projects/microbiote_pdacrna/AGASH/human_genome \\
+        -db /shared/projects/microbiote_pdacrna/AGASH/human_transcriptome \\
+        --remove-intermediate-output \\
+        --bowtie2-options="--sensitive" \\
+        --trimmomatic-options "ILLUMINACLIP:/shared/projects/microbiote_pdacrna/AGASH/TruSeq3-PE-2-GGGGG.fa:2:30:10 HEADCROP:3 SLIDINGWINDOW:4:20 MINLEN:50" \\
+        --bypass-trf \\
+        --run-fastqc-start \\
+        --run-fastqc-end \\
+        --threads 10 \\
+        --output-prefix ${id} \\
+        -o ${id}_kneaddata
+
+    kneaddata_read_count_table \\
+        --input ${id}_kneaddata \\
+        --output ${id}_kneaddata/${id}_read_count_table.tsv
     """
 }
 
+
+// ----------------------------------------------
+//             Trimmomatic 
+// ----------------------------------------------
+
+process trimmomatic {
+    tag "Trimmomatic sur ${sample_id}"
+    label 'maxi'
+
+    publishDir "${params.output_dir}/trimmomatic_results", mode: 'copy'
+
+    input:
+    tuple val(sample_id), path(reads)
+
+    output:
+    tuple val(sample_id), path("${sample_id}_trim_paired_1.fastq"), path("${sample_id}_trim_paired_2.fastq"), emit: paired
+    tuple val(sample_id), path("${sample_id}_trim_unpaired_*.fastq"), emit: unpaired
+
+    script:
+    """
+    java -jar /usr/share/java/trimmomatic.jar PE -threads $task.cpus \\
+        ${reads[0]} ${reads[1]} \\
+        ${sample_id}_trim_paired_1.fastq ${sample_id}_trim_unpaired_1.fastq \\
+        ${sample_id}_trim_paired_2.fastq ${sample_id}_trim_unpaired_2.fastq \\
+        ILLUMINACLIP:${params.adapter_path}:2:30:10 \\
+        HEADCROP:3 \\
+        SLIDINGWINDOW:4:20 \\
+        MINLEN:50
+    """
+}
 // ----------------------------------------------
 //             Merge Knead
 // ----------------------------------------------
 
+process star_filter {
+    label 'maxi'
 
-process merge_knead {
-    label 'midi'
-
-    module 'python/3.7'
-
-    errorStrategy 'retry'
-
-    maxRetries 1
-
-    // publishDir "${params.output_dir}/merge_knead", mode: 'copy', overwrite: true, pattern: "merge_knead.tsv"
-
-    scratch '/tmp'
+    publishDir "${params.output_dir}/reads_non_humains", mode: 'copy'
 
     input:
-        path(knead_count)
+        tuple val(sample), path(reads)
+        path star_index 
 
     output:
-        file("merge_knead.tsv")
+        tuple val(sample), path("${sample}_unmapped_{1,2}.fastq.gz"), emit: clean_reads
 
     script:
     """
-        python ${params.script_dir}/merge_knead.py -i ${knead_count.join(' ')} -o .
-    """ 
+    STAR --runThreadN ${task.cpus} \
+         --genomeDir ${star_index} \
+         --readFilesIn ${reads[0]} ${reads[1]} \
+         --outFileNamePrefix ${sample}_ \
+         --outReadsUnmapped Fastx \
+         --outSAMtype None
+
+    mv ${sample}_Unmapped.out.mate1 ${sample}_unmapped_1.fastq
+    mv ${sample}_Unmapped.out.mate2 ${sample}_unmapped_2.fastq
+
+    gzip ${sample}_unmapped_1.fastq
+    gzip ${sample}_unmapped_2.fastq
+    """
 }
+
 
 
 // ----------------------------------------------
 //             Kraken
 // ----------------------------------------------
-
 process kraken {
     label 'maxi2'
-
-    module 'kraken2'
-   
-    errorStrategy 'retry'
-
-    maxRetries 1
-
-    // Directive publishDir spécifique pour les fichiers .kreport
-    publishDir path: "${params.output_dir}/kreports", mode: 'copy', overwrite: true, pattern: "${sample}_reads_minimizer.kreport"
-
-    // Directive publishDir spécifique pour les autres fichiers
-    // publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_reads.krak"
-    // publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_classified_1.fastq"
-    // publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_classified_2.fastq"
-    // publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_unclassified_1.fastq"
-    // publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: "${sample}_unclassified_2.fastq"
-    // publishDir path: "${params.output_dir}/kraken/${sample}_kraken", mode: 'copy', overwrite: true, pattern: ".command.log"
+    publishDir { "${params.output_dir}/kraken_calibration/score_${params.confidence_score}" }, mode: 'copy'
 
     input:
-        tuple val(sample), file(reads)
+    tuple val(sample), path(paired_reads), path(unpaired_reads)
 
     output:
-        val(sample), emit: sampleName
-        path("${sample}_reads.krak"), emit: krak
-        path("${sample}_reads_minimizer.kreport"), emit: minimizer_report
-        // file("${sample}_classified_1.fastq")
-        // file("${sample}_classified_2.fastq")
-        // file("${sample}_unclassified_1.fastq")
-        // file("${sample}_unclassified_2.fastq")
-        // file(".command.log")
-        
+    tuple val(sample), path("${sample}_${params.confidence_score}.kreport"), emit: report
+    path "${sample}_${params.confidence_score}.krak", emit: minimizer_report
 
     script:
     """
+    for f in ${paired_reads} ${unpaired_reads}; do
+        if [[ "\$f" == *.gz ]]; then
+            zcat "\$f" >> all_reads_for_kraken.fastq
+        else
+            cat "\$f" >> all_reads_for_kraken.fastq
+        fi
+    done
+
+    if grep -q "^@" all_reads_for_kraken.fastq; then
         kraken2 --db ${params.kraken_db} \
-        --threads ${task.cpus} \
-        --paired ${reads} \
-        --output ${sample}_reads.krak \
-        --report ${sample}_reads_minimizer.kreport \
-        --report-minimizer-data \
-        --confidence ${params.confidence_score}
-    """ 
-}    
-
-
+                --threads ${task.cpus} \
+                --confidence ${params.confidence_score} \
+                --report-minimizer-data \
+                --output ${sample}_${params.confidence_score}.krak \
+                --report ${sample}_${params.confidence_score}.kreport \
+                all_reads_for_kraken.fastq 
+    else
+        touch ${sample}_${params.confidence_score}.krak
+        echo -e "100.00\t0\t0\tU\t0\tunclassified" > ${sample}_${params.confidence_score}.kreport
+    fi
+    """
+}
 
 // ----------------------------------------------
 //             Generate_original_kreport
-// ----------------------------------------------
+// --------------------------------------------kraken_--
 process generate_original_kreport {
-
     label 'midi'
-
     module 'python/3.7'
-
-    errorStrategy 'retry'
-
-    maxRetries 1
-
-
-    // publishDir "${params.output_dir}/GenerateOriginalKreport", mode: 'copy', overwrite: true
-
-    scratch '/tmp'
+    
+    publishDir "${params.output_dir}/kreports_standards", mode: 'copy'
 
     input:
         val(sample)
-        file(kreport)
+        path(kreport) 
 
     output:
-        val(sample)
-        path("${sample}_reads.kreport"), emit : kreport
+        val(sample), emit: sampleName 
+        path("${sample}_reads.kreport"), emit: kreport
     
     script:
     """
-        python ${params.script_dir}/create_krakenfile.py ${kreport} ${sample}_reads.kreport
+    python ${params.script_dir}/create_krakenfile.py ${kreport} ${sample}_reads.kreport
     """
 }
 
@@ -256,7 +275,7 @@ process run_Kraken2biom {
     maxRetries 1
 
 
-    // publishDir "${params.output_dir}/kraken2biom", mode: 'copy', overwrite: true
+    publishDir "${params.output_dir}/kraken2biom", mode: 'copy', overwrite: true
 
     scratch '/tmp'
 
@@ -268,7 +287,7 @@ process run_Kraken2biom {
 
     script:
     """
-        kraken-biom ${inputFiles} --fmt json -o ./all_sample_contig_table.biom
+        kraken-biom ${inputFiles} --max S -o ./all_sample_contig_table.biom
     """ 
 }
 
@@ -341,40 +360,35 @@ process keep_bacteria_only {
 //         MAIN
 // -----------------------------------------------
 
-// ext = "fastq,fastq.gz,fastq.bz2,fq,fq.gz,fq.bz2"
 
-// Channel
-//     .fromFilePairs("${params.fastq_dir}/${params.suffix}.{${params.ext}}")
-//     .ifEmpty { exit 1, "params.fastq_dir was empty - no input files supplied" }
-//     .set { reads_list } //stocke les pairs de fastq dans reads_list
-
-// workflow {
-//     kneaddata(reads_list, params.human_transcriptome, params.human_genome)
-//     merge_knead(kneaddata.out.tabCount.collect())
-//     kraken(kneaddata.out.paired)
-//     generate_original_kreport(kraken.out.sampleName, kraken.out.minimizer_report)
-//     //filter_kreport_file(kraken.out.sampleName, kraken.out.minimizer_report)
-//     filter_kreport_original_file(kraken.out.sampleName, generate_original_kreport.out.kreport)
-//     run_Kraken2biom(generate_original_kreport.out.kreport.collect())
-//     biom_tab(run_Kraken2biom.out.biom_data)
-//     keep_bacteria_only(biom_tab.out.tax_table, biom_tab.out.otu_table)
-// }
-
-
-Channel
-    .fromPath("${params.krakendir}/*.kreport", checkIfExists: true)
-    .ifEmpty { exit 1, "params.krakendir was empty - no input files supplied" }
-    .set { reads_list }
 
 
 workflow {
-    // kneaddata(reads_list, params.human_transcriptome, params.human_genome)
-    // merge_knead(kneaddata.out.tabCount.collect())
-    // kraken(kneaddata.out.paired)
-    // generate_original_kreport(kraken.out.sampleName, kraken.out.minimizer_report)
-    //filter_kreport_file(kraken.out.sampleName, kraken.out.minimizer_report)
-    // filter_kreport_original_file(kraken.out.sampleName, generate_original_kreport.out.kreport)
-    run_Kraken2biom(reads_list.collect())
-    biom_tab(run_Kraken2biom.out.biom_data)
-    keep_bacteria_only(biom_tab.out.tax_table, biom_tab.out.otu_table)
+    reads_ch = Channel.fromPath("${params.krakendir}/*.fastq.gz", checkIfExists: true)
+
+    reads_list = reads_ch
+   .map { file ->
+       def sample_id = file.simpleName.replaceAll(/_R[12]$/, "")
+       return tuple(sample_id, file)
+   }
+   .groupTuple(size: 2)
+
+    reads_list.view { sample_id, files -> "Échantillon détecté : $sample_id | Fichiers: $files" }
+
+    trimmomatic(reads_list)
+
+    ch_paired_ready = trimmomatic.out.paired
+        .map { it -> tuple(it[0], [it[1], it[2]]) }
+
+    ch_kraken_joined = ch_paired_ready.join(trimmomatic.out.unpaired)
+
+    ch_kraken_ready = ch_kraken_joined.map { it ->
+        return tuple(it[0], it[1], it[2])
+    }
+
+
+    kraken(ch_kraken_ready)
+    run_Kraken2biom(kraken.out.report.collect())
+    //biom_tab(run_Kraken2biom.out.biom_data)
+    //keep_bacteria_only(biom_tab.out.tax_table, biom_tab.out.otu_table)
 }

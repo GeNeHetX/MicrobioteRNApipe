@@ -8,7 +8,7 @@
 
 
 module purge
-module load nextflow/23.10.1 
+module load nextflow/26.04.4 
 
 
 PIPELINE="/shared/projects/microbiote_pdacrna/MicrobioteRNApipe/NextflowPipeline/main_microbiote_pipeline.nf"

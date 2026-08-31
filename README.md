@@ -1,87 +1,84 @@
-## Authors
-
-- [Ali YOUNCHA](https://github.com/MrAli1582)
-
-# Identification of bacteria in FFPE samples using RNAseq
+# MicrobioteRNApipe - Pipeline de décontamination et de profilage taxonomique pour RNA-Seq FFPE à faible biomasse
 
 ## Description
 
-This pipeline was designed to detect and identify non human RNA reads in RNA seq data, in order to have a separation between human and non human reads.
+**MicrobioteRNApipe** est un pipeline bioinformatique développé avec **Nextflow** et **Singularity** pour le contrôle qualité, l'élimination des séquences de l'hôte, le profilage taxonomique et la décontamination calibrée par courbes ROC des données de microbiome intratumoral (notamment sur tissus FFPE à faible biomasse)
 
-It uses **Kneaddata** software for quality control and decontamination. It allows us to keep paired reads that do not match (or align) the databases used as filters.  
+Le workflow traite les reads d'ARN non humains selon les étapes suivantes :
+1. **Prétraitement & Nettoyage :** Suppression des adaptateurs et filtration des bases de faible qualité via **Trimmomatic**
+2. **Filtration de l'hôte :** Alignement contre le génome humain de référence via **STAR** (utilisation des lectures non alignées *unmapped* pour l'analyse microbienne)
+3. **Classification taxonomique :** Assignation ultra-rapide par $k$-mers et *minimizers* via **Kraken2** (avec la base de données exhaustive **PlusPFP**)
+4. **Extraction des métriques & Consolidation :** Script utilitaire Bash (`compter_reads_cat.sh`) extrayant le nombre de reads, les minimizers totaux et les minimizers uniques par échantillon.
+5. **Décontamination calibrée par ROC :** Élimination systématique des effets batch, du *kitome* et des erreurs d'assignation algorithmiques (`blacklist.R`)
 
-Then it uses **Kraken2** to assign each read that passed those filtering criteria to a known taxon.
+---
 
-It also uses **Nextflow** and **singularity** for easy deployment on any machine or HPC and to ensure reproducibility of results.
+## Auteurs & Encadrement
 
-**Warning**: This pipeline was developed on an HPC clusterr ([IFB](https://www.france-bioinformatique.fr/cluster-ifb-core/)), you might need a few adjustments to run it locally.
+- **Agash UTHAYAKUMAR** ([GitHub](https://github.com/AGASH0))
+- **Ali YOUNCHA** ([GitHub](https://github.com/MrAli1582))
+- Encadré par : **Camille Pignolet** et **Lucie Gomes** (Centre de Recherche sur l'Inflammation, Inserm)
 
-## Dependencies
+---
 
-To run this pipeline you will need to have installed on your machine:
-* [Nextflow](https://www.nextflow.io/) (version 23.10.1)
-* [Singularity](https://docs.sylabs.io/guides/3.5/user-guide/index.html) (version 3.5.3)
-* [Kneaddata](https://github.com/biobakery/kneaddata)
-* [Kraken2](https://github.com/DerrickWood/kraken2)
+## Dépendances & Environnement
 
-Please check the specific dependencies for each tool. For beginners, more information and command lines are available in this file: [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Dependencies.md).
+Le pipeline est préconfiguré pour s'exécuter via le gestionnaire de jobs **SLURM** et les conteneurs **Singularity** sur cluster de calcul HPC (ex. cluster IFB Core) :
 
-## Input files:
+* [Nextflow](https://www.nextflow.io/) (23.10)
+* [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) (v0.39)
+* [STAR](https://github.com/alexdobin/STAR) (v2.7.3)
+* [Kraken2](https://github.com/DerrickWood/kraken2) (v2.17.1 avec option `--report-minimizer-data`)
+* [R](https://www.r-project.org/) (4.2) avec les packages `tidyverse`, `pROC`, `moments` et `MaAsLin2`
 
-To run this pipeline you will need to provide:
-* Fastq
-* [Kneaddata database](https://github.com/biobakery/kneaddata?tab=readme-ov-file#download-the-database) with human genome, human transcriptome and silva16S directories
-* [Kraken2 database](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.html)
+---
 
-Example command lines to download Kraken2 and Kneaddata databases are availables [here](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/Dependencies.md).
+## Bases de données requises
 
-**Note**: If you are running this microbiome analysis in parallel with a human analysis, you can use the unmapped reads from your human alignment with STAR. This will reduce the size of the FASTQ files and decrease processing time.
+Avant l'exécution, assurez-vous de disposer des bases suivantes sur votre espace de stockage :
 
-## Arguments and Parameters:
-To run, this pipeline requires a few arguments specific to yours files:
-* fastq_dir : directory with the fastqs to process
-* suffix : suffix of your fastq files
-* human_genome : kneaddata database directory with human genome files
-* human_transcriptome : kneaddata database directory  with human transcriptome files
-* silva16s : kneaddata database directory  with silva16s files
-* kraken_db : kraken2 database directory
+1. **Index génomiques & transcriptomiques humains :** Préparés pour la filtration des reads de l'hôte avec STAR
+2. **Base de données Kraken2 PlusPFP :** Base de référence incluant Bactéries, Archées, Virus, Protozoaires, Champignons, Plantes et Humain (Téléchargement : [k2_pluspfp_20260626.tar.gz](https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20260626.tar.gz))
+3. **Table d'isolation des souches BacDive / DSMZ :** Métadonnées écologiques pour l'annotation des catégories d'habitat bactérien (Disponible sur [BacDive](https://bacdive.dsmz.de/isolation-sources)).
 
-* script_dir : path the 'PipelineScripts' directory of Microbiote_pdacrna pipeline
-* output_dir : path to save output files
-* work_dir : path to save the nextflow work directory
+---
 
-There is also two parameters you can adjust acording to your data and preferences:
-* threshold : threshold for number of reads filtering
-* confidence_score : confidence kraken score
+## Guide de démarrage rapide
 
+### 1. Configuration des paramètres (`nextflow.config`)
+Éditez votre fichier de configuration pour indiquer vos chemins de fichiers d'entrée, de sortie et de bases de données :
 
-All thoses parameters needs to be store in a config file. You can find an example [here](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/NextflowPipeline/example.config).
-
-## Pipeline execution steps
-To run pipeline with nextflow:
-```
-nextflow -C path/to/file.config run path/to/MicrobioteRNApipe/NextflowPipeline/main_microbiote_pipeline.nf -resume
-```
-
-To run pipeline with a job file :
-```
-sbatch PATH_TO_JOB_EXECUTION PATH_TO_PIPELINE_MAIN PATH_TO_CONFIGURATION_FILE
+```groovy
+params {
+    krakendir         = "/chemin/vers/UnmappedReads_output"
+    output_dir        = "/chemin/vers/resultats"
+    kraken_db         = "/chemin/vers/kraken_BD"
+    confidence_score  = 0.2
+    adapter_path      = "/chemin/vers/TruSeq3-PE-2-GGGGG.fa"
+}
 ```
 
-## Output files:
+### 2. Soumission de l'exécution Nextflow
 
-Once the pipeline is executed successfully, you will obtain several results :
+Sur un cluster HPC géré par SLURM, lancez le pipeline en arrière-plan à l'aide du script fourni[cite: 3] :
 
-- Kraken kreports : Kraken step of the pipeline provides a taxonomic classification file for all the samples that were taken into account in the run.
-- OTU and TAX tables : two tables will be generated at the end of the pipeline's execution. 
+```bash
+sbatch launch_nf.job
+```
 
-## Possible analysis from MicrobioteRNAPipe output results
+### 3. Extraction des métriques & Décontamination ROC
+Une fois le workflow terminé, consolidez les rapports .kreport et appliquez la calibration de la blacklist :
 
-- If you want to retrieve the microbial composition pie-chart of all your samples, check the following [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AnalysisScripts/2_Samples_Bacterial_PieCharts/README.md)
+```bash
+# Visualisation des comptages et des minimizers uniques
+./compter_reads_cat.sh /chemin/vers/kraken_calibration/score_0.2
 
-- if you didn't run all the samples on the same pipeline and want to generate one OTU and TAX table of all these samples, check this [README](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AnalysisScripts/1_MergeOTU_TAX_files/README.md) 
+# Génération de la blacklist par optimisation ROC sous R
+Rscript blacklist.R
+```
 
-- If you want to perform Alpha and Beta diversity analyses using the OTU and TAX table outputs of the pipeline, check the first part of the [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta.md) and it's second part [tutorial_P2](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/AlphaBetaAnalysis/Tutorial_Alpha_beta_part2.md)
+# Documentation détaillée
 
-- Finally, if you want to perform Bacterial set enrichment analysis, check the following [tutorial](https://github.com/GeNeHetX/MicrobioteRNApipe/blob/main/BacterialEnrichmentAnalysis/Tutorial_bacterial_enrichment_analysis.md)
+Pour le guide complet étape par étape (configuration des tableaux de mapping, options d'exécution et tutoriel pas-à-pas), consultez le fichier PipelineExecution.md.
+
 
