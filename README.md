@@ -2,21 +2,20 @@
 
 ## Description
 
-**MicrobioteRNApipe** est un pipeline bioinformatique développé avec **Nextflow** et **Singularity** pour le contrôle qualité, l'élimination des séquences de l'hôte, le profilage taxonomique et la décontamination calibrée par courbes ROC des données de microbiome intratumoral (notamment sur tissus FFPE à faible biomasse)
+**MicrobioteRNApipe** est un pipeline bioinformatique développé avec **Nextflow** et **Docker** pour le contrôle qualité, l'élimination des séquences de l'hôte, le profilage taxonomique et la décontamination calibrée par courbes ROC des données de microbiome intratumoral (notamment sur tissus FFPE à faible biomasse)
 
 Le workflow traite les reads d'ARN non humains selon les étapes suivantes :
-1. **Prétraitement & Nettoyage :** Suppression des adaptateurs et filtration des bases de faible qualité via **Trimmomatic**
-2. **Filtration de l'hôte :** Alignement contre le génome humain de référence via **STAR** (utilisation des lectures non alignées *unmapped* pour l'analyse microbienne)
+1. **Filtration de l'hôte :** Alignement contre le génome humain de référence via **STAR** (utilisation des lectures non alignées *unmapped* pour l'analyse microbienne)
+2. **Prétraitement & Nettoyage :** Suppression des adaptateurs et filtration des bases de faible qualité via **Trimmomatic**
 3. **Classification taxonomique :** Assignation ultra-rapide par $k$-mers et *minimizers* via **Kraken2** (avec la base de données exhaustive **PlusPFP**)
 4. **Extraction des métriques & Consolidation :** Script utilitaire Bash (`compter_reads_cat.sh`) extrayant le nombre de reads, les minimizers totaux et les minimizers uniques par échantillon.
 5. **Décontamination calibrée par ROC :** Élimination systématique des effets batch, du *kitome* et des erreurs d'assignation algorithmiques (`blacklist.R`)
 
 ---
 
-## Auteurs & Encadrement
+## Auteur & Encadrement
 
 - **Agash UTHAYAKUMAR** ([GitHub](https://github.com/AGASH0))
-- **Ali YOUNCHA** ([GitHub](https://github.com/MrAli1582))
 - Encadré par : **Camille Pignolet** et **Lucie Gomes** (Centre de Recherche sur l'Inflammation, Inserm)
 
 ---

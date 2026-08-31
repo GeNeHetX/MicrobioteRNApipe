@@ -153,7 +153,7 @@ Exemple concret :
     /shared/projects/microbiote_pdacrna/AGASH/resultat_new_minimizer_kraken_TRIM_IPMN_RESTE/kraken_calibration/score_0.2 \
     /shared/projects/microbiote_pdacrna/AGASH/resultat_new_minimizer_kraken_TRIM_AUTRE_COHORTE/kraken_calibration/score_0.2
 ```
-### 4.3 Fichier consolidé de sortie
+### 4.3 Fichier de sortie
 Le script génère la table finale au format CSV, prête pour les analyses statistiques et la filtration sous R :
 
 Fichier généré : /shared/projects/pipe_microbiote_pancreas/agash/test_extraction_TRIM_IPMN_TOUT.csv
@@ -198,7 +198,7 @@ source(path_to/blacklist.R)
 
 L'exécution du script `blacklist.R` produit deux fichiers de référence essentiels dans votre répertoire de travail :
 
-* **`Blacklist_strict.csv` :** Table des taxons classés comme contaminants/bruit systématique, contenant :
+* **`Blacklist.csv` :** Table des taxons classés comme contaminants/bruit systématique, contenant :
   * `Species` : Nom de l'espèce bactérienne à exclure.
   * `Groupe_Test` : Assignation de calibration (`Colon`, `Contaminant` ou `Autre`).
   * `Source_Microbiome` : Catégorie écologique issue de BacDive/DSMZ (`Microbiote Digestif/Oral`, `Contaminant Env`, `Autre Microbiote Humain/Cutané`, etc.).
